@@ -1,8 +1,22 @@
 ﻿@typeparam TElement
-<dl>
-    @foreach(var property in GetPropertyDefinitions())
+<dl @onclick="ShowDetails">
+    @foreach(var property in GetSummaryProperties())
     {
         <dt>@(property.Name)</dt>
         <dd>@(property.Value)</dd>
     }
 </dl>
+@if (ShowingDetails)
+{
+  <fluent-dialog @ref="Modal" hidden trap-focus modal @onclick="CloseDialog">
+    <div style="margin: 20px;">
+        <dl @onclick="ShowDetails">
+            @foreach(var property in GetProperties().OrderByDescending(p => p.Summary))
+            {
+                <dt>@(property.Name)</dt>
+                <dd>@(property.Value)</dd>
+            }
+        </dl>        
+    </div>
+  </fluent-dialog>
+}

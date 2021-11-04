@@ -2,12 +2,16 @@
 {
     public class Employee : IHaveChildren<Employee>
     {
-        public string? Name { get; set; }
+        [Summary] public string? Name { get; set; }
 
-        public string? Title { get; set; }
+        [Summary] public string? Title { get; set; }
 
-        public IList<Employee> Reports { get; set; } = new List<Employee>();
+        public string? Telephone { get; set; }
 
-        public IEnumerable<Employee> Children => Reports;
+        public string? Country { get; set; }
+
+        [Hidden] public IList<Employee> Reports { get; set; } = new List<Employee>();
+
+        [Hidden] public IEnumerable<Employee> Children => Reports;
     }
 }
