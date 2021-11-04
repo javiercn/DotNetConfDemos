@@ -1,6 +1,7 @@
 using DotNetConfDemos.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddResponseCompression(o => o.EnableForHttps = true);
+builder.Services.AddResponseCompression(o =>
+{
+    o.Providers.Add<BrotliCompressionProvider>();
+    o.EnableForHttps = true;
+});
+
+builder.Services.Configure<BrotliCompressionProviderOptions>(o =>
+{
+    o.Level = System.IO.Compression.CompressionLevel.SmallestSize;
+});
 
 var app = builder.Build();
 

@@ -3,7 +3,7 @@ import {terser} from 'rollup-plugin-terser';
 import summary from 'rollup-plugin-summary';
 
 export default {
-  input: 'index.js',
+  input: 'dialog.js',
   plugins: [
     // Resolve bare module specifiers to relative paths
     resolve(),
