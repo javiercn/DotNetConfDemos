@@ -1,0 +1,15 @@
+﻿@using DotNetConfDemos.Data
+@typeparam TChildren where TChildren : IHaveChildren<TChildren>
+@attribute [CascadingTypeParameter(nameof(TChildren))]
+
+@foreach(var element in Elements)
+{
+    @ChildContent(element)
+    <OrgChart TChildren="TChildren" Elements="element.Children" ChildContent="@ChildContent" />
+}
+
+@code {
+    [Parameter][EditorRequired] public IEnumerable<TChildren> Elements { get; set; } = default!;
+
+    [Parameter][EditorRequired] public RenderFragment<TChildren> ChildContent { get; set; } = default!;
+}

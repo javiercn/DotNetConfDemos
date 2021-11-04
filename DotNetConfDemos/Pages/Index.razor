@@ -1,0 +1,32 @@
+﻿@page "/"
+@using DotNetConfDemos.Data;
+@using DotNetConfDemos.Components;
+
+<PageTitle>Index</PageTitle>
+
+<h1>Organization</h1>
+
+<OrgChart TChildren="Employee" Elements="Enumerable.Repeat(Org, 1)">
+    <DisplayCard Element="context" />
+</OrgChart>
+
+@code {
+    private Employee Org = new()
+    {
+        Name = "Daniel Roth",
+        Title = "Principal Program Manager",
+        Reports = new List<Employee>()
+        {
+            new()
+            {
+                Name = "Javier Calvarro Nelson",
+                Title = "Senior Software Engineer"
+            },
+            new ()
+            {
+                Name = "Steve Sanderson",
+                Title = "Principal Software Engineer"
+            }
+        }
+    };
+}

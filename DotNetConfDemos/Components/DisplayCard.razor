@@ -1,0 +1,8 @@
+﻿@typeparam TElement
+<dl>
+    @foreach(var property in GetPropertyDefinitions())
+    {
+        <dt>@(property.Name)</dt>
+        <dd>@(property.Value)</dd>
+    }
+</dl>
