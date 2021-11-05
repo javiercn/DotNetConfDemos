@@ -1,6 +1,7 @@
-﻿namespace DotNetConfDemos.Data;
-
-public interface IHaveChildren<TChildren>
+﻿
+public interface IHaveChildren
 {
-    IEnumerable<TChildren> Children { get; }
+    object? Parent { get; }
+
+    IEnumerable<object> Children { get; }
 }

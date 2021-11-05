@@ -1,17 +1,29 @@
-﻿namespace DotNetConfDemos.Data
+﻿namespace DotNetConfDemos.Data;
+
+public class Employee : IHaveChildren
 {
-    public class Employee : IHaveChildren<Employee>
-    {
-        [Summary] public string? Name { get; set; }
+    [Summary]
+    public string? Name { get; set; }
 
-        [Summary] public string? Title { get; set; }
+    [Summary]
+    public string? Title { get; set; }
 
-        public string? Telephone { get; set; }
+    public string? Telephone { get; set; }
 
-        public string? Country { get; set; }
+    public string? Country { get; set; }
 
-        [Hidden] public IList<Employee> Reports { get; set; } = new List<Employee>();
+    [Hidden]
+    public string? Image { get; set; }
 
-        [Hidden] public IEnumerable<Employee> Children => Reports;
-    }
+    [Hidden]
+    public Employee? Manager { get; set; }
+
+    [Hidden]
+    public object? Parent => Manager;
+
+    [Hidden]
+    public IList<Employee> Reports { get; set; } = new List<Employee>();
+
+    [Hidden]
+    public IEnumerable<object> Children => Reports;
 }

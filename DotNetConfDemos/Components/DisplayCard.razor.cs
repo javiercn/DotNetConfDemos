@@ -36,9 +36,23 @@ public partial class DisplayCard<TElement> : ComponentBase
         CardModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/DisplayCard.razor.js");
     }
 
-    [Parameter][EditorRequired] public TElement Element { get; set; } = default!;
+    [Parameter]
+    [EditorRequired]
+    public TElement Element { get; set; } = default!;
 
-    [Inject] public IJSRuntime JS { get; set; } = default!;
+    [Parameter]
+    [EditorRequired]
+    public RenderFragment Heading { get; set; } = default!;
+
+    [Parameter]
+    [EditorRequired]
+    public RenderFragment Body { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<TElement> OnClick { get; set; }
+
+    [Inject]
+    public IJSRuntime JS { get; set; } = default!;
 
     public IJSObjectReference CardModule { get; set; } = default!;
 

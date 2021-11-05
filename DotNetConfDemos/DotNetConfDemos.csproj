@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ClientAssetsBuildOutputParameter>--dir</ClientAssetsBuildOutputParameter>
+	<emitcompilergeneratedfiles>true</emitcompilergeneratedfiles>
   </PropertyGroup>
 
   <ItemGroup>
