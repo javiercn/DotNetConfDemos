@@ -1,14 +1,18 @@
 ﻿@typeparam TElement
-<dl @onclick="ShowDetails">
-    @foreach(var property in GetSummaryProperties())
-    {
-        <dt>@(property.Name)</dt>
-        <dd>@(property.Value)</dd>
-    }
-</dl>
+
+<div class="card m-3" style="width:25rem" @onclick="() => OnClick.InvokeAsync(Element)">
+    <div class="card-header bg-dark text-white">
+        @Heading
+    </div>
+    <div class="card-body">
+    <div class="mb-3">@Body</div>
+        <button class="btn btn-outline-primary" @onclick="ShowDetails" @onclick:stopPropagation>Details</button>
+    </div>
+</div>
+
 @if (ShowingDetails)
 {
-  <fluent-dialog @ref="Modal" hidden trap-focus modal @onclick="CloseDialog">
+  <fluent-dialog @ref="Modal" hidden trap-focus modal @onclick="CloseDialog" style="z-index:1">
     <div style="margin: 20px;">
         <dl>
             @foreach(var property in GetProperties().OrderByDescending(p => p.Summary))

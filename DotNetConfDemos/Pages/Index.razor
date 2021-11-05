@@ -6,33 +6,75 @@
 
 <h1>Organization</h1>
 
-<OrgChart TChildren="Employee" Elements="Enumerable.Repeat(Org, 1)">
-    <DisplayCard Element="context" />
+<OrgChart Element="org">
+    <Heading>
+        <div class="d-flex">
+            <div class="me-2">
+                <img style="width:100px; height:100px" class="img-thumbnail" src="/images/@context!.Image" />
+            </div>
+            <div class="flex-grow-1 align-self-center">
+                <h5 class="card-title">@context!.Name</h5>
+            </div>
+        </div>
+    </Heading>
+    <Body>
+        <p class="card-text">@context!.Title</p>
+    </Body>
 </OrgChart>
 
 @code {
-    private Employee Org = new()
+    private Employee? org;
+
+    protected override void OnInitialized()
     {
-        Name = "Daniel Roth",
-        Title = "Principal Program Manager",
-        Country = "United States of America",
-        Telephone = "+1 246 357 198",
-        Reports = new List<Employee>()
+        org = CreateOrg();
+    }
+
+    private Employee CreateOrg()
+    {
+        Employee satya = new()
         {
-            new()
-            {
-                Name = "Javier Calvarro Nelson",
-                Title = "Senior Software Engineer",
-                Country = "Spain",
-                Telephone = "+34 987 654 321"
-            },
-            new ()
-            {
-                Name = "Steve Sanderson",
-                Title = "Principal Software Engineer",
-                Country = "United Kingdom",
-                Telephone = "+44 123 456 789"
-            }
-        }
-    };
+            Name = "Satya Nadella",
+            Title = "CEO",
+            Country = "USA",
+            Telephone = "+1 555 555 5555",
+            Image = "satya.png"
+        };
+
+        Employee steve = new()
+        {
+            Name = "Steve Sanderson",
+            Title = "The Blazorfather",
+            Country = "United Kingdom",
+            Telephone = "+44 123 456 789",
+            Image = "SteveSandersonMS.jpg",
+            Manager = satya
+        };
+
+        Employee dan = new()
+        {
+            Name = "Daniel Roth",
+            Title = "Principal Program Manager",
+            Country = "USA",
+            Telephone = "+1 123 456 7890",
+            Image = "danroth27.jpg",
+            Manager = steve
+        };
+
+        Employee javier = new()
+        {
+            Name = "Javier Calvarro Nelson",
+            Title = "Senior Software Engineer",
+            Country = "Spain",
+            Telephone = "+34 987 654 321",
+            Image = "javiercn.png",
+            Manager = steve
+        };
+
+        satya.Reports.Add(steve);
+        steve.Reports.Add(dan);
+        steve.Reports.Add(javier);
+
+        return satya;
+    }
 }

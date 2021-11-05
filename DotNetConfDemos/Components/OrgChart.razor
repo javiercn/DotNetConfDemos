@@ -1,15 +1,51 @@
 ﻿@using DotNetConfDemos.Data
-@typeparam TChildren where TChildren : IHaveChildren<TChildren>
-@attribute [CascadingTypeParameter(nameof(TChildren))]
+@typeparam TElement where TElement : IHaveChildren
 
-@foreach(var element in Elements)
-{
-    @ChildContent(element)
-    <OrgChart TChildren="TChildren" Elements="element.Children" ChildContent="@ChildContent" />
-}
+
+<div class="d-flex justify-content-center">
+    <div class="d-flex flex-column">
+        @foreach (TElement ancestor in current!.GetAncestry().Reverse())
+        {
+            <DisplayCard @key="ancestor.GetHashCode()" Element="ancestor" OnClick="(TElement e) => OnClick(e)">
+                <Heading>@Heading(ancestor)</Heading>
+                <Body>@Body(ancestor)</Body>
+            </DisplayCard>
+        }
+    </div>
+</div>
+<hr />
+<div class="d-flex justify-content-center">
+    @foreach (TElement child in current!.Children)
+    {
+        <DisplayCard @key="child.GetHashCode()" Element="child" OnClick="(TElement e) => OnClick(e)">
+            <Heading>@Heading(child)</Heading>
+            <Body>@Body(child)</Body>
+        </DisplayCard>
+    }
+</div>
 
 @code {
-    [Parameter][EditorRequired] public IEnumerable<TChildren> Elements { get; set; } = default!;
+    TElement? current;
 
-    [Parameter][EditorRequired] public RenderFragment<TChildren> ChildContent { get; set; } = default!;
+    protected override void OnParametersSet()
+    {
+        current = Element;
+    }
+
+    [Parameter]
+    [EditorRequired]
+    public TElement Element { get; set; } = default!;
+
+    [Parameter]
+    [EditorRequired]
+    public RenderFragment<TElement>? Heading { private get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public RenderFragment<TElement>? Body { private get; set; }
+
+    void OnClick(TElement element)
+    {
+        current = element;
+    }
 }
