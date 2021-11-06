@@ -1,10 +1,9 @@
-﻿using DotNetConfDemos.Data;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace DotNetConfDemos.Components;
+namespace NextGenBlazorComponents;
 
-public partial class DisplayCard<TElement> : ComponentBase
+public partial class OrgChartElement<TElement> : ComponentBase
 {
     public IEnumerable<PropertyValue> GetSummaryProperties()
     {
@@ -33,7 +32,7 @@ public partial class DisplayCard<TElement> : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        CardModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/DisplayCard.razor.js");
+        CardModule = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/NextGenBlazorComponents/OrgChartElement.razor.js");
     }
 
     [Parameter]

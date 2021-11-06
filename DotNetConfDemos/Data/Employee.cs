@@ -1,4 +1,6 @@
-﻿namespace DotNetConfDemos.Data;
+﻿using NextGenBlazorComponents;
+
+namespace DotNetConfDemos.Data;
 
 public class Employee : IHaveChildren
 {
@@ -7,6 +9,9 @@ public class Employee : IHaveChildren
 
     [Summary]
     public string? Title { get; set; }
+
+    [Summary]
+    public string? Team { get; set; }
 
     public string? Telephone { get; set; }
 

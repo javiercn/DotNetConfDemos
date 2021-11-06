@@ -1,4 +1,5 @@
 ﻿@typeparam TItem
+
 @{ Owner.RegisterSeries(Label ?? "Unnamed"); }
 <g class="series">
     <polyline stroke-dasharray="@(Dashed ? 4 : 0)" fill="none" strokeWidth=".5" points="@ToPolylinePoints()" />
@@ -10,10 +11,18 @@
 </g>
 
 @code {
-    [Parameter, EditorRequired] public Func<TItem, double> Y { get; set; } = default!;
-    [Parameter] public string? Label { get; set; }
-    [Parameter] public bool Dashed { get; set; }
-    [CascadingParameter] public Chart<TItem> Owner { get; set; } = default!;
+    [Parameter]
+    [EditorRequired]
+    public Func<TItem, double> Y { get; set; } = default!;
+    
+    [Parameter]
+    public string? Label { get; set; }
+    
+    [Parameter]
+    public bool Dashed { get; set; }
+    
+    [CascadingParameter]
+    public Chart<TItem> Owner { get; set; } = default!;
 
     private string ToPolylinePoints()
     {
