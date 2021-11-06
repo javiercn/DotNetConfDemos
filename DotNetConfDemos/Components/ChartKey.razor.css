@@ -1,0 +1,22 @@
+﻿.key {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.series-key {
+    margin: 1rem;
+}
+
+.series-color {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid silver;
+}
+
+.series-name {
+    margin-left: 0.5rem;
+    margin-right: 2rem;
+}

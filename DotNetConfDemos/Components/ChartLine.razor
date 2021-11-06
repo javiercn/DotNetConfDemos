@@ -1,0 +1,27 @@
+﻿@typeparam TItem
+@{ Owner.RegisterSeries(Label ?? "Unnamed"); }
+<g class="series">
+    <polyline stroke-dasharray="@(Dashed ? 4 : 0)" fill="none" strokeWidth=".5" points="@ToPolylinePoints()" />
+
+    @foreach (var item in Owner.Items)
+    {
+        <circle cx="@(Owner.ToPlotX(Owner.X(item)))" cy="@(Owner.ToPlotY(Y(item)))" r="4"></circle>
+    }
+</g>
+
+@code {
+    [Parameter, EditorRequired] public Func<TItem, double> Y { get; set; } = default!;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public bool Dashed { get; set; }
+    [CascadingParameter] public Chart<TItem> Owner { get; set; } = default!;
+
+    private string ToPolylinePoints()
+    {
+        var sb = new System.Text.StringBuilder();
+        foreach (var item in Owner.Items)
+        {
+            sb.AppendFormat("{0},{1} ", Owner.ToPlotX(Owner.X(item)), Owner.ToPlotY(Y(item)));
+        }
+        return sb.ToString();
+    }
+}
