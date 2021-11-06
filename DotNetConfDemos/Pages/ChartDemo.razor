@@ -1,0 +1,40 @@
+﻿@page "/chart"
+
+<PageTitle>Chart</PageTitle>
+
+<div>
+    <h1>Sales</h1>
+
+    <p>
+        <label>
+            <input type="checkbox" @bind="showAverage" />
+            Show average
+        </label>
+    </p>
+
+    <Chart Items="@salesData" X="@(item => item.Year)" YMax="7500" XAxisLabel="Year" YAxisLabel="Sales">
+        <ChartLine Label="Europe" Y="@(item => item.EuropeSales)" />
+        <ChartLine Label="Americas" Y="@(item => item.AmericasSales)" />
+        <ChartLine Label="Asia" Y="@(item => item.AsiaSales)" />
+        <ChartLine Label="Africa" Y="@(item => item.AfricaSales)" />
+
+        @if (showAverage)
+        {
+            <ChartLine Label="Average" Dashed="true" Y="@(item => (item.EuropeSales + item.AmericasSales + item.AsiaSales + item.AfricaSales) / 4)" />
+        }
+    </Chart>
+</div>
+
+@code {
+    bool showAverage = true;
+
+    record SalesRecord(int Year, int EuropeSales, int AmericasSales, int AsiaSales, int AfricaSales);
+
+    SalesRecord[] salesData = new SalesRecord[]
+    {
+        new (2016, 2000, 4800, 4500, 5600),
+        new (2017, 2600, 5100, 4600, 6800),
+        new (2018, 3400, 5200, 4800, 6300),
+        new (2019, 3600, 4700, 4150, 5800),
+    };
+}

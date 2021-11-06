@@ -1,0 +1,13 @@
+﻿@typeparam TItem;
+
+<div class="key">
+    @foreach (var name in Owner.SeriesNames)
+    {
+        <div class="series-color"></div>
+        <span class="series-name">@name</span>
+    }
+</div>
+
+@code {
+    [Parameter] public Chart<TItem> Owner { get; set; } = default!;
+}

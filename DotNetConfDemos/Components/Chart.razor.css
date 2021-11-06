@@ -1,0 +1,54 @@
+﻿.graph .labels.x-labels {
+    text-anchor: middle;
+}
+
+.graph .labels.y-labels {
+    text-anchor: end;
+}
+
+    .graph .grid, .x-labels line, .y-labels line {
+        stroke: #666;
+        stroke-width: 1.5px;
+    }
+
+.labels {
+    font-size: 13px;
+}
+
+.label-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+    fill: black;
+    text-anchor: middle;
+}
+
+.data, .key {
+    --series-color: black;
+}
+
+.data ::deep g.series:nth-of-type(1), ::deep .series-color:nth-of-type(1) {
+    --series-color: red;
+}
+
+.data ::deep g.series:nth-of-type(2), ::deep .series-color:nth-of-type(2) {
+    --series-color: blue;
+}
+.data ::deep g.series:nth-of-type(3), ::deep .series-color:nth-of-type(3) {
+    --series-color: green;
+}
+.data ::deep g.series:nth-of-type(4), ::deep .series-color:nth-of-type(4) {
+    --series-color: orange;
+}
+
+::deep circle {
+    fill: var(--series-color);
+}
+
+::deep polyline {
+    stroke: var(--series-color);
+}
+
+::deep .series-color {
+    background: var(--series-color);
+}
