@@ -1,4 +1,4 @@
-﻿namespace DotNetConfDemos.Data;
+﻿namespace NextGenBlazorComponents;
 
 public class SummaryAttribute : Attribute
 {

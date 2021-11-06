@@ -1,6 +1,6 @@
-﻿@page "/"
+﻿@page "/org-chart"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Org Chart</PageTitle>
 
 <h1>Organization</h1>
 
@@ -16,7 +16,8 @@
         </div>
     </Heading>
     <Body>
-        <p class="card-text">@context!.Title</p>
+        <h6 class="card-subtitle fw-bold">@context!.Title</h6>
+        <p class="card-text">@context!.Team</p>
     </Body>
 </OrgChart>
 
@@ -34,6 +35,7 @@
         {
             Name = "Satya Nadella",
             Title = "CEO",
+            Team = "Office of the CEO",
             Country = "USA",
             Telephone = "+1 555 555 5555",
             Image = "satya.png"
@@ -43,6 +45,7 @@
         {
             Name = "Steve Sanderson",
             Title = "The Blazorfather",
+            Team = "ASP.NET",
             Country = "United Kingdom",
             Telephone = "+44 123 456 789",
             Image = "SteveSandersonMS.jpg",
@@ -53,6 +56,7 @@
         {
             Name = "Daniel Roth",
             Title = "Principal Program Manager",
+            Team = "ASP.NET",
             Country = "USA",
             Telephone = "+1 123 456 7890",
             Image = "danroth27.jpg",
@@ -63,6 +67,7 @@
         {
             Name = "Javier Calvarro Nelson",
             Title = "Senior Software Engineer",
+            Team = "ASP.NET",
             Country = "Spain",
             Telephone = "+34 987 654 321",
             Image = "javiercn.png",

@@ -4,12 +4,15 @@
 <CascadingValue IsFixed="true" Value="this">
     @{ seriesNames.Clear(); }
     <svg version="1.2" viewBox="0 0 @Width @Height" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="graph" role="img">
+        @*Draw the x and y axes*@
         <g class="grid x-grid">
             <line x1="@ToPlotX(xMin)" x2="@ToPlotX(xMin)" y1="@ToPlotY(YMin)" y2="@ToPlotY(YMax)"></line>
         </g>
         <g class="grid y-grid">
             <line x1="@ToPlotX(xMin)" x2="@ToPlotX(xMax)" y1="@ToPlotY(YMin)" y2="@ToPlotY(YMin)"></line>
         </g>
+
+        @*Label the axes*@
         <g class="labels x-labels">
             @foreach (var x in GetXAxisLabelPositions())
             {
@@ -31,6 +34,7 @@
             <text class="label-title" transform="translate(@(yAxisInset * 0.4), @(Height / 2)) rotate(-90)">@YAxisLabel</text>
         </g>
     
+        @*Plot the data*@
         <g class="data">
             @ChildContent
         </g>
@@ -47,17 +51,42 @@
     double xMin, xMax;
     List<string> seriesNames = new();
 
-    [Parameter, EditorRequired] public ICollection<TItem> Items { get; set; } = default!;
-    [Parameter, EditorRequired] public double YMax { get; set; }
-    [Parameter, EditorRequired] public Func<TItem, double> X { get; set; } = default!;
-    [Parameter] public double Width { get; set; } = 500;
-    [Parameter] public double Height { get; set; } = 280;
-    [Parameter] public string? XAxisLabel { get; set; }
-    [Parameter] public string? YAxisLabel { get; set; }
-    [Parameter] public Func<double, string> XAxisMarkerFormat { get; set; } = x => x.ToString();
-    [Parameter] public Func<double, string> YAxisMarkerFormat { get; set; } = y => y.ToString();
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public double YMin { get; set; }
+    [Parameter]
+    [EditorRequired]
+    public ICollection<TItem> Items { get; set; } = default!;
+    
+    [Parameter]
+    [EditorRequired]
+    public double YMax { get; set; }
+    
+    [Parameter]
+    [EditorRequiredAttribute]
+    public Func<TItem, double> X { get; set; } = default!;
+    
+    [Parameter]
+    public double Width { get; set; } = 500;
+    
+    [Parameter]
+    public double Height { get; set; } = 280;
+    
+    [Parameter]
+    public string? XAxisLabel { get; set; }
+    
+    [Parameter]
+    public string? YAxisLabel { get; set; }
+    
+    [Parameter]
+    public Func<double, string> XAxisMarkerFormat { get; set; } = x => x.ToString();
+    
+    [Parameter]
+    public Func<double, string> YAxisMarkerFormat { get; set; } = y => y.ToString();
+    
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    [Parameter]
+    public double YMin { get; set; }
+
 
     protected override void OnParametersSet()
     {

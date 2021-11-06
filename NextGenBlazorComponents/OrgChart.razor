@@ -1,15 +1,13 @@
-﻿@using DotNetConfDemos.Data
-@typeparam TElement where TElement : IHaveChildren
-
+﻿@typeparam TElement where TElement : IHaveChildren
 
 <div class="d-flex justify-content-center">
     <div class="d-flex flex-column">
         @foreach (TElement ancestor in current!.GetAncestry().Reverse())
         {
-            <DisplayCard @key="ancestor.GetHashCode()" Element="ancestor" OnClick="(TElement e) => OnClick(e)">
+            <OrgChartElement @key="ancestor.GetHashCode()" Element="ancestor" OnClick="(TElement e) => OnClick(e)">
                 <Heading>@Heading(ancestor)</Heading>
                 <Body>@Body(ancestor)</Body>
-            </DisplayCard>
+            </OrgChartElement>
         }
     </div>
 </div>
@@ -17,10 +15,10 @@
 <div class="d-flex justify-content-center">
     @foreach (TElement child in current!.Children)
     {
-        <DisplayCard @key="child.GetHashCode()" Element="child" OnClick="(TElement e) => OnClick(e)">
+        <OrgChartElement @key="child.GetHashCode()" Element="child" OnClick="(TElement e) => OnClick(e)">
             <Heading>@Heading(child)</Heading>
             <Body>@Body(child)</Body>
-        </DisplayCard>
+        </OrgChartElement>
     }
 </div>
 
