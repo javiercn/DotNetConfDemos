@@ -1,0 +1,96 @@
+﻿@typeparam TItem
+@attribute [CascadingTypeParameter(nameof(TItem))]
+
+<CascadingValue IsFixed="true" Value="this">
+    @{ seriesNames.Clear(); }
+    <svg version="1.2" viewBox="0 0 @Width @Height" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="graph" role="img">
+        <g class="grid x-grid">
+            <line x1="@ToPlotX(xMin)" x2="@ToPlotX(xMin)" y1="@ToPlotY(YMin)" y2="@ToPlotY(YMax)"></line>
+        </g>
+        <g class="grid y-grid">
+            <line x1="@ToPlotX(xMin)" x2="@ToPlotX(xMax)" y1="@ToPlotY(YMin)" y2="@ToPlotY(YMin)"></line>
+        </g>
+        <g class="labels x-labels">
+            @foreach (var x in GetXAxisLabelPositions())
+            {
+                <g>
+                    <line x1="@ToPlotX(x)" x2="@ToPlotX(x)" y1="@(Height - yAxisInset)" y2="@(Height - yAxisInset + TickLength)"></line>
+                    <text x="@ToPlotX(x)" y="@(Height - yAxisInset/2.0)">@XAxisMarkerFormat(x)</text>
+                </g>
+            }
+            <text x="@(Width / 2)" y="@(Height)" class="label-title">@XAxisLabel</text>
+        </g>
+        <g class="labels y-labels">
+            @foreach (var y in GetYAxisLabelPositions())
+            {
+                <g>
+                    <line y1="@ToPlotY(y)" y2="@ToPlotY(y)" x1="@(xAxisInset + 0.5)" x2="@(xAxisInset - TickLength)"></line>
+                    <text x="@(xAxisInset * 0.9)" y="@ToPlotY(y)" dominant-baseline="middle">@YAxisMarkerFormat(y)</text>
+                </g>
+            }
+            <text class="label-title" transform="translate(@(yAxisInset * 0.4), @(Height / 2)) rotate(-90)">@YAxisLabel</text>
+        </g>
+    
+        <g class="data">
+            @ChildContent
+        </g>
+    </svg>
+    <div class="key">
+        <ChartKey Owner="@this" />
+    </div>
+</CascadingValue>
+
+@code {
+    const double TickLength = 3;
+    double xAxisInset, yAxisInset;
+    double paddingTop, paddingRight;
+    double xMin, xMax;
+    List<string> seriesNames = new();
+
+    [Parameter, EditorRequired] public ICollection<TItem> Items { get; set; } = default!;
+    [Parameter, EditorRequired] public double YMax { get; set; }
+    [Parameter, EditorRequired] public Func<TItem, double> X { get; set; } = default!;
+    [Parameter] public double Width { get; set; } = 500;
+    [Parameter] public double Height { get; set; } = 280;
+    [Parameter] public string? XAxisLabel { get; set; }
+    [Parameter] public string? YAxisLabel { get; set; }
+    [Parameter] public Func<double, string> XAxisMarkerFormat { get; set; } = x => x.ToString();
+    [Parameter] public Func<double, string> YAxisMarkerFormat { get; set; } = y => y.ToString();
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public double YMin { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        xAxisInset = Width * 0.1;
+        yAxisInset = Height * 0.1;
+        paddingTop = yAxisInset / 2.0;
+        paddingRight = xAxisInset / 2.0;
+
+        xMin = Items.Min(X);
+        xMax = Items.Max(X);
+    }
+
+    internal double ToPlotX(double dataX) => xAxisInset + (Width - xAxisInset - paddingRight) * (dataX - xMin) / (xMax - xMin);
+    internal double ToPlotY(double dataY) => paddingTop + (Height - yAxisInset - paddingTop) * (1 - (dataY - YMin) / (YMax - YMin));
+
+    private IEnumerable<double> GetXAxisLabelPositions()
+    {
+        var count = Math.Min(8, Items.Count);
+        for (var i = 0; i < count; i++)
+        {
+            yield return xMin + (xMax - xMin) * (i / (count - 1.0));
+        }
+    }
+
+    private IEnumerable<double> GetYAxisLabelPositions()
+    {
+        var count = Math.Min(8, Items.Count);
+        for (var i = 0; i < count; i++)
+        {
+            yield return YMin + (YMax - YMin) * (i / (count - 1.0));
+        }
+    }
+
+    internal void RegisterSeries(string name) => seriesNames.Add(name);
+    internal IEnumerable<string> SeriesNames => seriesNames;
+}
