@@ -36,11 +36,11 @@
 
     [Parameter]
     [EditorRequired]
-    public RenderFragment<TElement>? Heading { private get; set; }
+    public RenderFragment<TElement> Heading { private get; set; } = default!;
 
     [Parameter]
     [EditorRequired]
-    public RenderFragment<TElement>? Body { private get; set; }
+    public RenderFragment<TElement> Body { private get; set; } = default!;
 
     void OnClick(TElement element)
     {

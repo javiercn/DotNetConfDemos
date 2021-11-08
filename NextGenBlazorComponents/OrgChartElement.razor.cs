@@ -5,34 +5,18 @@ namespace NextGenBlazorComponents;
 
 public partial class OrgChartElement<TElement> : ComponentBase
 {
-    public IEnumerable<PropertyValue> GetSummaryProperties()
-    {
-        foreach (var info in typeof(TElement).GetProperties())
-        {
-            if (info.CustomAttributes.Any(a => a.AttributeType == typeof(SummaryAttribute)))
-            {
-                yield return new PropertyValue(info.Name, info.GetValue(Element), true);
-            }
-        }
-    }
-
-    public IEnumerable<PropertyValue> GetProperties()
-    {
-        foreach (var info in typeof(TElement).GetProperties())
-        {
-            if (!info.CustomAttributes.Any(a => a.AttributeType == typeof(HiddenAttribute)))
-            {
-                yield return new PropertyValue(
-                    info.Name,
-                    info.GetValue(Element),
-                    info.CustomAttributes.Any(a => a.AttributeType == typeof(SummaryAttribute)));
-            }
-        }
-    }
-
     protected override async Task OnInitializedAsync()
     {
-        CardModule = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/NextGenBlazorComponents/OrgChartElement.razor.js");
+        CardModule = await JS.InvokeAsync<IJSObjectReference>("import", 
+            "./_content/NextGenBlazorComponents/OrgChartElement.razor.js");
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (ShowingDetails && Modal.Id != null)
+        {
+            await CardModule.InvokeVoidAsync("openDialog", Modal);
+        }
     }
 
     [Parameter]
@@ -63,13 +47,30 @@ public partial class OrgChartElement<TElement> : ComponentBase
 
     public void CloseDialog() => ShowingDetails = false;
 
-    protected async override Task OnAfterRenderAsync(bool firstRender)
+    public record struct PropertyValue(string Name, object? Value, bool Summary);
+
+    public IEnumerable<PropertyValue> GetSummaryProperties()
     {
-        if (ShowingDetails && Modal.Id != null)
+        foreach (var info in typeof(TElement).GetProperties())
         {
-            await CardModule.InvokeVoidAsync("openDialog", Modal);
+            if (info.CustomAttributes.Any(a => a.AttributeType == typeof(SummaryAttribute)))
+            {
+                yield return new PropertyValue(info.Name, info.GetValue(Element), true);
+            }
         }
     }
 
-    public record struct PropertyValue(string Name, object? Value, bool Summary);
+    public IEnumerable<PropertyValue> GetProperties()
+    {
+        foreach (var info in typeof(TElement).GetProperties())
+        {
+            if (!info.CustomAttributes.Any(a => a.AttributeType == typeof(HiddenAttribute)))
+            {
+                yield return new PropertyValue(
+                    info.Name,
+                    info.GetValue(Element),
+                    info.CustomAttributes.Any(a => a.AttributeType == typeof(SummaryAttribute)));
+            }
+        }
+    }
 }
