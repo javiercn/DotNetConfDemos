@@ -13,14 +13,14 @@
     </p>
 
     <Chart Items="@salesData" X="@(item => item.Year)" YMax="7500" XAxisLabel="Year" YAxisLabel="Sales">
-        <ChartLine Label="Europe" Y="@(item => item.EuropeSales)" />
-        <ChartLine Label="Americas" Y="@(item => item.AmericasSales)" />
-        <ChartLine Label="Asia" Y="@(item => item.AsiaSales)" />
-        <ChartLine Label="Africa" Y="@(item => item.AfricaSales)" />
+        <ChartLine TItem="SalesRecord" Label="Europe" Y="@(item => item.EuropeSales)" />
+        <ChartLine TItem="SalesRecord" Label="Americas" Y="@(item => item.AmericasSales)" />
+        <ChartLine TItem="SalesRecord" Label="Asia" Y="@(item => item.AsiaSales)" />
+        <ChartLine TItem="SalesRecord" Label="Africa" Y="@(item => item.AfricaSales)" />
 
         @if (showAverage)
         {
-            <ChartLine Label="Average" Dashed="true" Y="@(item => (item.EuropeSales + item.AmericasSales + item.AsiaSales + item.AfricaSales) / 4)" />
+            <ChartLine TItem="SalesRecord" Label="Average" Dashed="true" Y="@(item => (item.EuropeSales + item.AmericasSales + item.AsiaSales + item.AfricaSales) / 4)" />
         }
     </Chart>
 </div>
