@@ -6,10 +6,10 @@
     <svg version="1.2" viewBox="0 0 @Width @Height" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="graph" role="img">
         @*Draw the x and y axes*@
         <g class="grid x-grid">
-            <line x1="@ToPlotX(xMin)" x2="@ToPlotX(xMin)" y1="@ToPlotY(YMin)" y2="@ToPlotY(YMax)"></line>
+            <line x1="@Coord(ToPlotX(xMin))" x2="@Coord(ToPlotX(xMin))" y1="@Coord(ToPlotY(YMin))" y2="@Coord(ToPlotY(YMax))"></line>
         </g>
         <g class="grid y-grid">
-            <line x1="@ToPlotX(xMin)" x2="@ToPlotX(xMax)" y1="@ToPlotY(YMin)" y2="@ToPlotY(YMin)"></line>
+            <line x1="@Coord(ToPlotX(xMin))" x2="@Coord(ToPlotX(xMax))" y1="@Coord(ToPlotY(YMin))" y2="@Coord(ToPlotY(YMin))"></line>
         </g>
 
         @*Label the axes*@
@@ -17,21 +17,21 @@
             @foreach (var x in GetXAxisLabelPositions())
             {
                 <g>
-                    <line x1="@ToPlotX(x)" x2="@ToPlotX(x)" y1="@(Height - yAxisInset)" y2="@(Height - yAxisInset + TickLength)"></line>
-                    <text x="@ToPlotX(x)" y="@(Height - yAxisInset/2.0)">@XAxisMarkerFormat(x)</text>
+                    <line x1="@Coord(ToPlotX(x))" x2="@Coord(ToPlotX(x))" y1="@Coord((Height - yAxisInset))" y2="@Coord(Height - yAxisInset + TickLength)"></line>
+                    <text x="@Coord(ToPlotX(x))" y="@Coord(Height - yAxisInset/2.0)">@XAxisMarkerFormat(x)</text>
                 </g>
             }
-            <text x="@(Width / 2)" y="@(Height)" class="label-title">@XAxisLabel</text>
+            <text x="@Coord(Width / 2)" y="@Coord(Height)" class="label-title">@XAxisLabel</text>
         </g>
         <g class="labels y-labels">
             @foreach (var y in GetYAxisLabelPositions())
             {
                 <g>
-                    <line y1="@ToPlotY(y)" y2="@ToPlotY(y)" x1="@(xAxisInset + 0.5)" x2="@(xAxisInset - TickLength)"></line>
-                    <text x="@(xAxisInset * 0.9)" y="@ToPlotY(y)" dominant-baseline="middle">@YAxisMarkerFormat(y)</text>
+                    <line y1="@Coord(ToPlotY(y))" y2="@Coord(ToPlotY(y))" x1="@Coord(xAxisInset + 0.5)" x2="@Coord(xAxisInset - TickLength)"></line>
+                    <text x="@Coord(xAxisInset * 0.9)" y="@Coord(ToPlotY(y))" dominant-baseline="middle">@YAxisMarkerFormat(y)</text>
                 </g>
             }
-            <text class="label-title" transform="translate(@(yAxisInset * 0.4), @(Height / 2)) rotate(-90)">@YAxisLabel</text>
+            <text class="label-title" transform="translate(@Coord(yAxisInset * 0.4), @Coord(Height / 2)s rotate(-90)">@YAxisLabel</text>
         </g>
     
         @*Plot the data*@

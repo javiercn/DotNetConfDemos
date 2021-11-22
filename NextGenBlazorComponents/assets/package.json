@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "build:Debug": "rollup --config ./rollup.config.js --format es",
-    "build:Release": "rollup --config ./rollup.config.js --treeshake --format es"
+    "build:Debug": "npx rollup --config ./rollup.config.js --format es",
+    "build:Release": "npx rollup --config ./rollup.config.js --treeshake --format es"
   },
   "dependencies": {
     "@fluentui/web-components": "^2.0.1"
